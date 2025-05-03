@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Sözcük Avı</title>
+  <style>
+    body {
+      background-color: #fff;
+      color: #b30000;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      border: 2px solid #b30000;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #b30000;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #990000;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #f2f2f2;
+      margin: 5px;
+      padding: 8px 12px;
+      border-radius: 5px;
+    }
+
+    .box {
+      background-color: #fffafa;
+      border: 1px solid #b30000;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>🧠 Sözcük Avı</h1>
+
+    <div>
+      <input type="text" id="harf" placeholder="2 ya da daha fazla harf girin (örnek: ar, el)">
+      <button onclick="ara()">Ara</button>
+    </div>
+
+    <h2>Sonuçlar</h2>
+    <ul id="sonuc"></ul>
+
+    <hr>
+
+    <h3>Yeni Kelime Ekle</h3>
+    <input type="text" id="yeniKelime" placeholder="Kelime yazın">
+    <button onclick="ekle()">Ekle</button>
+  </div>
+
+  <script>
+    let kelimeler = ["elma", "armut", "masa", "kedi", "köpek", "araba", "merhaba", "maraş", "yaz", "kavak"];
+
+    function ara() {
+      const harf = document.getElementById("harf").value.toLowerCase().trim();
+      const liste = document.getElementById("sonuc");
+      liste.innerHTML = "";
+
+      if (!harf || harf.length < 2) {
+        alert("Lütfen iki ya da daha fazla harf girin!");
+        return;
+      }
+
+      // Girilen harf dizisini içeren kelimeleri filtrele
+      const sonuc = kelimeler.filter(k => k.includes(harf));
+      
+      if (sonuc.length === 0) {
+        liste.innerHTML = "<li>Hiçbir kelime bulunamadı!</li>";
+      } else {
+        sonuc.forEach(k => {
+          const li = document.createElement("li");
+          li.textContent = k;
+          liste.appendChild(li);
+        });
+      }
+    }
+
+    function ekle() {
+      const yeni = document.getElementById("yeniKelime").value.toLowerCase().trim();
+      if (yeni && !kelimeler.includes(yeni)) {
+        kelimeler.push(yeni);
+        alert(`"${yeni}" kelimesi eklendi!`);
+        document.getElementById("yeniKelime").value = "";
+      }
+    }
+  </script>
+</body>
+</html>
