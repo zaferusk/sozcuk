@@ -64,7 +64,7 @@
     <h1>🧠 Sözcük Avı</h1>
 
     <div>
-      <input type="text" id="harf" placeholder="2 ya da daha fazla harf girin (örnek: ar, el)">
+      <input type="text" id="harf" placeholder="Harfleri girin (örnek: k m l)">
       <button onclick="ara()">Ara</button>
     </div>
 
@@ -79,21 +79,24 @@
   </div>
 
   <script>
-    let kelimeler = ["elma", "armut", "masa", "kedi", "köpek", "araba", "merhaba", "maraş", "yaz", "kavak"];
+    let kelimeler = ["elma", "armut", "masa", "kedi", "köpek", "araba", "melek", "kemal", "merhaba", "yaz", "kavak"];
 
     function ara() {
-      const harf = document.getElementById("harf").value.toLowerCase().trim();
+      const harf = document.getElementById("harf").value.toLowerCase().trim().split(/\s+/);  // Harfleri al
       const liste = document.getElementById("sonuc");
       liste.innerHTML = "";
 
-      if (!harf || harf.length < 2) {
-        alert("Lütfen iki ya da daha fazla harf girin!");
+      if (harf.length < 1) {
+        alert("Lütfen harfleri girin!");
         return;
       }
 
-      // Girilen harf dizisini içeren kelimeleri filtrele
-      const sonuc = kelimeler.filter(k => k.includes(harf));
-      
+      // Girilen harflerin her birini içeren kelimeleri filtrele (sırası önemli değil)
+      const sonuc = kelimeler.filter(kelime => {
+        // Her harfi kelimede bulmalı
+        return harf.every(h => kelime.includes(h));
+      });
+
       if (sonuc.length === 0) {
         liste.innerHTML = "<li>Hiçbir kelime bulunamadı!</li>";
       } else {
